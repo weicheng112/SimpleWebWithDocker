@@ -66,4 +66,4 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceIds,Values=i-0e5fdd40de475bea5" \
             --parameters commands="cd /home/ubuntu && docker compose stop && docker compose rm -f && docker compose pull && docker compose up -d" \
-            --comment "Deploying updated Docker containers to EC2
+            --comment "Deploying updated Docker containers to EC2"
