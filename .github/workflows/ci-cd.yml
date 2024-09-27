@@ -61,7 +61,7 @@ jobs:
 
       - name: Run deployment script on EC2
         run: |
-          ssh ubuntu@54.210.66.194 << 'EOF'
+          ssh -T ubuntu@54.210.66.194 << 'EOF'
             cd /home/ubuntu
             docker compose stop
             docker compose rm -f
