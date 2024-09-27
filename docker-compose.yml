@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
+    environment:
+      - UVICORN_WORKERS=4
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend/number-input-app
+    container_name: react-frontend
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
