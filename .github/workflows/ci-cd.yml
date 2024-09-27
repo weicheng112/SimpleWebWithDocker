@@ -57,7 +57,7 @@ jobs:
 
       - name: Add EC2 to known_hosts
         run: |
-          ssh-keyscan -H 54.210.66.194 >> ~/.ssh/known_hosts  # Add the EC2 instance to known_hosts to avoid the prompt
+          ssh-keyscan -t ed25519 54.210.66.194 >> ~/.ssh/known_hosts  # Add the EC2 instance to known_hosts to avoid the prompt
 
       - name: Run deployment script on EC2
         run: |
