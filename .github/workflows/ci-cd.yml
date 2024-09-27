@@ -52,8 +52,8 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa  # Ensure the private key has the correct permissions
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/assignment4
+          chmod 600 ~/.ssh/assignment4  # Ensure the private key has the correct permissions
 
       - name: Add EC2 to known_hosts
         run: |
