@@ -55,6 +55,11 @@ jobs:
           echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/assignment4.pem
           chmod 600 ~/.ssh/assignment4.pem  # Ensure the private key has the correct permissions
 
+      - name: Start ssh-agent and add the key
+        run: |
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/assignment4.pem
+
       - name: Add EC2 to known_hosts
         run: |
           ssh-keyscan -t ed25519 54.210.66.194 >> ~/.ssh/known_hosts  # Add the EC2 instance to known_hosts to avoid the prompt
