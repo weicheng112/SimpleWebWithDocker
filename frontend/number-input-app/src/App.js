@@ -8,7 +8,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post("http://localhost:8000/submit-number/", {
+      const result = await axios.post("http://54.210.66.194/submit-number/", {
         number: parseInt(number),
       });
       setResponse(result.data.received_number);
@@ -28,7 +28,9 @@ function App() {
         />
         <button type="submit">Submit</button>
       </form>
-      {response && <p>The number you entered is: {response}</p>}
+      {response && (
+        <p>The number you entered is: {response} change change 11111</p>
+      )}
     </div>
   );
 }
