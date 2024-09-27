@@ -46,24 +46,27 @@ jobs:
     needs: build
 
     steps:
-      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Step 2: Set up AWS CLI
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1
-
-      # Step 3: Deploy to EC2 via AWS SSM
-      - name: Deploy to EC2 via AWS SSM
+      - name: Set up SSH key
         run: |
-          aws ssm send-command \
-            --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceIds,Values=i-0e5fdd40de475bea5" \
-            --parameters commands="cd /home/ubuntu && docker compose stop && docker compose rm -f && docker compose pull && docker compose up -d" \
-            --comment "Deploying updated Docker containers to EC2
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa  # Ensure the private key has the correct permissions
+
+      - name: Add EC2 to known_hosts
+        run: |
+          ssh-keyscan -H 54.210.66.194 >> ~/.ssh/known_hosts  # Add the EC2 instance to known_hosts to avoid the prompt
+
+      - name: Run deployment script on EC2
+        run: |
+          ssh ubuntu@54.210.66.194 << 'EOF'
+            cd /home/ubuntu
+            docker compose stop
+            docker compose rm -f
+            docker compose pull
+            docker compose up -d
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
