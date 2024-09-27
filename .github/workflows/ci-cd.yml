@@ -52,12 +52,8 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/assignment4
-          chmod 600 ~/.ssh/assignment4  # Ensure the private key has the correct permissions
-      - name: Start ssh-agent and add the key
-        run: |
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/assignment4
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/assignment4.pem
+          chmod 600 ~/.ssh/assignment4.pem  # Ensure the private key has the correct permissions
 
       - name: Add EC2 to known_hosts
         run: |
@@ -65,7 +61,7 @@ jobs:
 
       - name: Run deployment script on EC2
         run: |
-          ssh -T ubuntu@54.210.66.194 << 'EOF'
+          ssh -i ~/.ssh/assignment4.pem -T ubuntu@54.210.66.194 << 'EOF'
             cd /home/ubuntu
             docker compose stop
             docker compose rm -f
