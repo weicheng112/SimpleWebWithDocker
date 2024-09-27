@@ -52,7 +52,7 @@ jobs:
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
-          echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' > ~/.ssh/assignment4.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/assignment4.pem
           chmod 600 ~/.ssh/assignment4.pem  # Ensure the private key has the correct permissions
 
       - name: Start ssh-agent and add the key
