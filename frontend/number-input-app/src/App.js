@@ -9,7 +9,7 @@ function App() {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "http://internal-backend-ALB-72765900.us-east-1.elb.amazonaws.com/submit-number/",
+        "http://backend-ALB-1-1672505141.us-east-1.elb.amazonaws.com/submit-number/",
         {
           number: parseInt(number),
         }
