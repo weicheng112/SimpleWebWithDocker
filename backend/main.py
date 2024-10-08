@@ -20,6 +20,11 @@ class NumberInput(BaseModel):
 async def submit_number(input: NumberInput):
     return {"received_number": input.number}
 
+@app.get("/health")
+async def health_check():
+    """Simple health check endpoint"""
+    return {"status": "healthy"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
