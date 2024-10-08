@@ -9,7 +9,7 @@ function App() {
     e.preventDefault();
     try {
       const result = await axios.post(
-        "http://api.websystem.systems/submit-number/",
+        "http://api.websystem.systems:8000/submit-number/",
         {
           number: parseInt(number),
         }
