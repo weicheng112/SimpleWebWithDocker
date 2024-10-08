@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
   const [number, setNumber] = useState("");
   const [response, setResponse] = useState(null);
+  const [clientIp, setClientIp] = useState("");
+
+  useEffect(() => {
+    // Fetch the client IP address from ipify API
+    const fetchIP = async () => {
+      try {
+        const res = await axios.get("https://api.ipify.org?format=json");
+        setClientIp(res.data.ip);
+      } catch (error) {
+        console.error("Failed to fetch IP address:", error);
+      }
+    };
+
+    fetchIP();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,7 +29,7 @@ function App() {
           number: parseInt(number),
         }
       );
-      setResponse(result.data.received_number);
+      setResponse(`The number you entered is: ${result.data.received_number}`);
     } catch (error) {
       console.error("Error submitting number:", error);
     }
@@ -31,7 +46,8 @@ function App() {
         />
         <button type="submit">Submit</button>
       </form>
-      {response && <p>The number you entered is: {response}</p>}
+      {response && <p>{response}</p>}
+      <p>Your IP address is: {clientIp}</p>
     </div>
   );
 }
